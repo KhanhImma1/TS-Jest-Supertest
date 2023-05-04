@@ -25,7 +25,7 @@
         "baseUrl": ".",
         "paths": {
             "@App/*": [
-                "src/*"
+                "_tests_/*"
             ],
             "lib/*": [
                 "common/*"
@@ -33,10 +33,10 @@
         }
     },
     "include": [
-        "src/**/*"
+        "_tests_/**/*"
     ],
     "exclude": [
         "node_modules",
-        "src/**/*.step.ts"
+        "_tests_/**/*.step.ts"
     ]
 }
