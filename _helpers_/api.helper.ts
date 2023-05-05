@@ -17,9 +17,9 @@ export async function deleteCampaign(id: number) {
         .delete("/api/campaign/" + id + "/delete")
         .set('Authorization', token);
     if (response.body.error === 0) {
-        console.log('successfull delete id ' + id);
+        console.log('successfull delete campaign id ' + id);
     } else {
-        console.log('failed delete');
+        console.log('failed delete campaign id ' + id);
     }
 }
 
@@ -35,13 +35,42 @@ export function createChannel(name: string, des: string, color: string, star: bo
         });
 }
 
+export function updateChannel(id: number, name: string, des: string, color: string, star: boolean) {
+    return request(base_url)
+        .put("/api/channel/" + id + "/update")
+        .set('Authorization', token)
+        .send({
+            "name": name,
+            "description": des,
+            "color": color,
+            "starred": star
+        });
+}
+
 export async function deleteChannel(id: number) {
     const response = await request(base_url)
         .delete("/api/channel/" + id + "/delete")
         .set('Authorization', token);
     if (response.body.error === 0) {
-        console.log('successfull delete campaign id ' + id);
+        console.log('successfull delete channel id ' + id);
     } else {
-        console.log('failed delete campaign');
+        console.log('failed delete channel id ' + id);
     }
+}
+
+export function createPixel(type: string, name: string, tag: string) {
+    return request(base_url)
+        .post("/api/pixel/add")
+        .set('Authorization', token)
+        .send({
+            "type": type,
+            "name": name,
+            "tag": tag
+        });
+}
+
+export function listPixels() {
+    return request(base_url)
+        .get("/api/pixels")
+        .set('Authorization', token)
 }
