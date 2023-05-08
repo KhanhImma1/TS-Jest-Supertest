@@ -9,10 +9,11 @@ describe('PUT /api/channel/:id/update', function () {
         const randomDescription = generateRandomString();
         const randomName_2 = generateRandomString();
         const randomDescription_2 = generateRandomString()
-        // create new channel
+        // create a new channel for testing
         const createdResponse = await createChannel(randomName, randomDescription, "#000000", false);
+        // add id into array for deleting later
         channel_id.push(createdResponse.body.id);
-        // update channel created with id
+        // update channel that has just created
         const updatedResponse = await updateChannel(createdResponse.body.id, randomName_2, randomDescription_2, "#FFFFFF", true);
         const body = updatedResponse.body;
         expect(updatedResponse.status).toEqual(200);
@@ -35,6 +36,7 @@ describe('PUT /api/channel/:id/update', function () {
         const newChannel_2 = await createChannel(randomName_2, randomDescription_2, "#000000", false);
         const channel_id_2 = newChannel_2.body.id;
         const channel_name_2 = newChannel_2.body.name;
+        // add id into array for deleting later
         channel_id.push(channel_id_1, channel_id_2);
         // update channel_1 with existent name of channel_2
         const updatedResponse = await updateChannel(channel_id_1, channel_name_2, randomDescription_2, "#000000", true);

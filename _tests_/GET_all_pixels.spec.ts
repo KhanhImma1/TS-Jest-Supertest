@@ -7,14 +7,17 @@ describe('GET /api/pixels', function () {
 
     test('PIX-001 Verify that user can get list of total pixels', async function () {
         const record_size = 2;
+        // create new pixels for testing
         for (let i = 0; i < record_size; i++) {
             var randomType = generateRandomPixelType();
             var randomName = generateRandomString();
             var randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
             console.log(newPixel.body);
+            // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
         };
+        // get list of pixels
         const response = await listPixels();
         const data = response.body.data;
         expect(response.status).toEqual(200);
@@ -35,14 +38,17 @@ describe('GET /api/pixels', function () {
     test('PIX-002 Verify that user can get list of pixels with "limit" in param', async function () {
         const record_size = 4;
         const limits = 3;
+        // create new pixels for testing
         for (let i = 0; i < record_size; i++) {
             var randomType = generateRandomPixelType();
             var randomName = generateRandomString();
             var randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
             console.log(newPixel.body);
+            // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
         };
+        // get list of pixels
         const response = await listPixels(limits);
         const data = response.body.data;
         expect(response.status).toEqual(200);
@@ -53,10 +59,11 @@ describe('GET /api/pixels', function () {
         expect(data.nextpage).toEqual(2);
         expect(data.maxpage).toEqual(2);
     },
-        DEFAULT_TIMEOUT
+        DEFAULT_TIMEOUT // need more time to create records
     )
 
     afterEach(async function () {
+        // delete pixels after testing
         for (let i = 0; i < pixel_id.length; i++) {
             await deletePixel(pixel_id[i]);
         }

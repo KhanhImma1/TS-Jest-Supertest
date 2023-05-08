@@ -7,9 +7,10 @@ describe('POST /api/campaign/add', function () {
     test('CAM-001 Verify that user can create a campaign', async function () {
         const randomName = generateRandomString();
         const randomSlug = generateRandomString();
+        // create a new campaign for testing
         const response = await createCampaign(randomName, randomSlug, true);
         const body = response.body;
-        // add id into array for deleting after
+        // add id into array for deleting later
         campaign_id.push(response.body.id);
         expect(response.status).toEqual(200);
         expect(body.error).toEqual(0);
@@ -23,12 +24,13 @@ describe('POST /api/campaign/add', function () {
     test('CAM-011 Verify that user cannot create a campaign with existent "name" in Body', async function () {
         const randomName = generateRandomString();
         const randomSlug = generateRandomString();
-        // get existent name of created campaign
+        // create a new campaign for testing
         const response_1 = await createCampaign(randomName, randomSlug, true);
+        // get existent name of created campaign
         const existent_name = response_1.body.campaign;
-        // create the second campaign with existent name
+        // create another campaign with existent name above
         const response_2 = await createCampaign(existent_name, randomSlug, true);
-        // add id into array for deleting after
+        // add id into array for deleting later
         campaign_id.push(response_1.body.id, response_2.body.id)
         expect(response_2.status).toEqual(400);
         expect(response_2.body.error).toEqual(1);
