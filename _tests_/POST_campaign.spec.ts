@@ -1,9 +1,12 @@
-import { randomName, randomSlug } from '../_helpers_/const'
+import { generateRandomString } from '../_helpers_/common'
 import { createCampaign, deleteCampaign } from '../_helpers_/api.helper'
 
-var campaign_id: number[] = [];
 describe('POST /api/campaign/add', function () {
+    var campaign_id: number[] = [];
+
     test('CAM-001 Verify that user can create a campaign', async function () {
+        const randomName = generateRandomString();
+        const randomSlug = generateRandomString();
         const response = await createCampaign(randomName, randomSlug, true);
         // add id into array for deleting after
         campaign_id.push(response.body.id);
@@ -17,6 +20,8 @@ describe('POST /api/campaign/add', function () {
     });
 
     test('CAM-011 Verify that user cannot create a campaign with existent "name" in Body', async function () {
+        const randomName = generateRandomString();
+        const randomSlug = generateRandomString();
         // get existent name of created campaign
         const response_1 = await createCampaign(randomName, randomSlug, true);
         const existent_name = response_1.body.campaign;
