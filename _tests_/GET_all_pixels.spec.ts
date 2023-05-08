@@ -13,7 +13,6 @@ describe('GET /api/pixels', function () {
             var randomName = generateRandomString();
             var randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
-            console.log(newPixel.body);
             // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
         };
@@ -44,7 +43,6 @@ describe('GET /api/pixels', function () {
             var randomName = generateRandomString();
             var randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
-            console.log(newPixel.body);
             // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
         };

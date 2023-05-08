@@ -1,10 +1,10 @@
 import request from 'supertest';
-import { base_url, token } from '../_helpers_/const'
+import { BASE_URL, TOKEN } from '../_helpers_/const'
 
 export function createCampaign(name: string, slug: string, pub: boolean) {
-    return request(`${base_url}`)
+    return request(`${BASE_URL}`)
         .post("/api/campaign/add")
-        .set('Authorization', `${token}`)
+        .set('Authorization', `${TOKEN}`)
         .send({
             "name": name,
             "slug": slug,
@@ -13,9 +13,9 @@ export function createCampaign(name: string, slug: string, pub: boolean) {
 }
 
 export async function deleteCampaign(id: number) {
-    const response = await request(`${base_url}`)
+    const response = await request(`${BASE_URL}`)
         .delete("/api/campaign/" + id + "/delete")
-        .set('Authorization', `${token}`);
+        .set('Authorization', `${TOKEN}`);
     if (response.body.error === 0) {
         console.log('successfull delete campaign id ' + id);
     } else {
@@ -24,9 +24,9 @@ export async function deleteCampaign(id: number) {
 }
 
 export function createChannel(name: string, des: string, color: string, star: boolean) {
-    return request(`${base_url}`)
+    return request(`${BASE_URL}`)
         .post("/api/channel/add")
-        .set('Authorization', `${token}`)
+        .set('Authorization', `${TOKEN}`)
         .send({
             "name": name,
             "description": des,
@@ -36,9 +36,9 @@ export function createChannel(name: string, des: string, color: string, star: bo
 }
 
 export function updateChannel(id: number, name: string, des: string, color: string, star: boolean) {
-    return request(`${base_url}`)
+    return request(`${BASE_URL}`)
         .put("/api/channel/" + id + "/update")
-        .set('Authorization', `${token}`)
+        .set('Authorization', `${TOKEN}`)
         .send({
             "name": name,
             "description": des,
@@ -48,9 +48,9 @@ export function updateChannel(id: number, name: string, des: string, color: stri
 }
 
 export async function deleteChannel(id: number) {
-    const response = await request(`${base_url}`)
+    const response = await request(`${BASE_URL}`)
         .delete("/api/channel/" + id + "/delete")
-        .set('Authorization', `${token}`);
+        .set('Authorization', `${TOKEN}`);
     if (response.body.error === 0) {
         console.log('successfull delete channel id ' + id);
     } else {
@@ -59,9 +59,9 @@ export async function deleteChannel(id: number) {
 }
 
 export function createPixel(type: string, name: string, tag: string) {
-    return request(`${base_url}`)
+    return request(`${BASE_URL}`)
         .post("/api/pixel/add")
-        .set('Authorization', `${token}`)
+        .set('Authorization', `${TOKEN}`)
         .send({
             "type": type,
             "name": name,
@@ -70,9 +70,9 @@ export function createPixel(type: string, name: string, tag: string) {
 }
 
 export function listPixels(limits?: number, pages?: number) {
-    return request(`${base_url}`)
+    return request(`${BASE_URL}`)
         .get("/api/pixels")
-        .set('Authorization', `${token}`)
+        .set('Authorization', `${TOKEN}`)
         .query({
             limit: limits,
             page: pages
@@ -80,9 +80,9 @@ export function listPixels(limits?: number, pages?: number) {
 }
 
 export async function deletePixel(id: number) {
-    const response = await request(`${base_url}`)
+    const response = await request(`${BASE_URL}`)
         .delete("/api/pixel/" + id + "/delete")
-        .set('Authorization', `${token}`);
+        .set('Authorization', `${TOKEN}`);
     if (response.body.error === 0) {
         console.log('successfull delete pixel id ' + id);
     } else {
