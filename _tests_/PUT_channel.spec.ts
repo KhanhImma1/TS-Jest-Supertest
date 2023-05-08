@@ -11,21 +11,20 @@ describe('PUT /api/channel/:id/update', function () {
         const randomDescription_2 = generateRandomString()
         // create new channel
         const createdResponse = await createChannel(randomName, randomDescription, "#000000", false);
-        // console.log(createdResponse.body);
         channel_id.push(createdResponse.body.id);
         // update channel created with id
         const updatedResponse = await updateChannel(createdResponse.body.id, randomName_2, randomDescription_2, "#FFFFFF", true);
-        // console.log(updatedResponse.body)
+        const body = updatedResponse.body;
         expect(updatedResponse.status).toEqual(200);
-        expect(updatedResponse.body.error).toEqual(0);
-        expect(updatedResponse.body.name.toLowerCase()).toEqual(randomName_2);
-        expect(updatedResponse.body.description).toEqual(randomDescription_2);
-        expect(updatedResponse.body.color).toEqual("#FFFFFF");
-        expect(updatedResponse.body.starred).toEqual(true);
-        expect(updatedResponse.body).toHaveProperty('id');
+        expect(body.error).toEqual(0);
+        expect(body.name.toLowerCase()).toEqual(randomName_2);
+        expect(body.description).toEqual(randomDescription_2);
+        expect(body.color).toEqual("#FFFFFF");
+        expect(body.starred).toEqual(true);
+        expect(body).toHaveProperty('id');
     });
 
-    test('CHA-012 Verify that user cannot change details of an existent channel with existent "name" in Body', async function () {
+    test('CHA-012 Verify that user cannot rename an existent channel with existent "name" in Body', async function () {
         const randomName = generateRandomString();
         const randomDescription = generateRandomString();
         const randomName_2 = generateRandomString();

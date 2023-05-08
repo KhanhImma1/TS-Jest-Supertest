@@ -8,15 +8,16 @@ describe('POST /api/campaign/add', function () {
         const randomName = generateRandomString();
         const randomSlug = generateRandomString();
         const response = await createCampaign(randomName, randomSlug, true);
+        const body = response.body;
         // add id into array for deleting after
         campaign_id.push(response.body.id);
         expect(response.status).toEqual(200);
-        expect(response.body.error).toEqual(0);
-        expect(response.body.campaign.toLowerCase()).toEqual(randomName);
-        expect(response.body.public).toEqual(true);
-        expect(response.body.rotator).toEqual("https://urlbae.com/r/" + randomSlug);
-        expect(response.body.list).toContain("https://urlbae.com/u/");
-        expect(response.body).toHaveProperty("id");
+        expect(body.error).toEqual(0);
+        expect(body.campaign.toLowerCase()).toEqual(randomName);
+        expect(body.public).toEqual(true);
+        expect(body.rotator).toEqual("https://urlbae.com/r/" + randomSlug);
+        expect(body.list).toContain("https://urlbae.com/u/");
+        expect(body).toHaveProperty("id");
     });
 
     test('CAM-011 Verify that user cannot create a campaign with existent "name" in Body', async function () {
@@ -25,8 +26,6 @@ describe('POST /api/campaign/add', function () {
         // get existent name of created campaign
         const response_1 = await createCampaign(randomName, randomSlug, true);
         const existent_name = response_1.body.campaign;
-        // console.log(response_1.body);
-        // console.log('existent_name: ' + existent_name);
         // create the second campaign with existent name
         const response_2 = await createCampaign(existent_name, randomSlug, true);
         // add id into array for deleting after
