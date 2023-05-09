@@ -5,7 +5,7 @@ import { createCampaign, deleteManyCampaigns } from '../helpers/api.helper'
 import { errorMessage } from '../helpers/enum'
 
 describe('POST /api/campaign/add', function () {
-    var campaign_id: string[] = [];
+    var campaignIdList: string[] = [];
 
     test('CAM-001 Verify that user can create a campaign', async function () {
         const randomName = generateRandomString();
@@ -19,10 +19,10 @@ describe('POST /api/campaign/add', function () {
                 "slug": randomSlug,
                 "public": true
             });
-        const body = response.body;
-        // add id into array for deleting later
-        campaign_id.push(response.body.id);
         expect(response.status).toEqual(200);
+        // add id into array for deleting later
+        campaignIdList.push(response.body.id);
+        const body = response.body;
         expect(body.error).toEqual(0);
         expect(body.campaign.toLowerCase()).toEqual(randomName);
         expect(body.public).toEqual(true);
@@ -35,27 +35,28 @@ describe('POST /api/campaign/add', function () {
         const randomName = generateRandomString();
         const randomSlug = generateRandomString();
         // create a new campaign for testing
-        const response_1 = await createCampaign(randomName, randomSlug, true);
+        const response1 = await createCampaign(randomName, randomSlug, true);
+        // add id into array for deleting later
+        campaignIdList.push(response1.body.id)
         // get existent name of created campaign
-        const existent_name = response_1.body.campaign;
+        const campaignName1 = response1.body.campaign;
         // create another campaign with existent name above
-        const response_2 = await request(BASE_URL)
+        const response2 = await request(BASE_URL)
             .post("/api/campaign/add")
             .set('Authorization', `${TOKEN}`)
             .send({
-                "name": existent_name,
+                "name": campaignName1,
                 "slug": randomSlug,
                 "public": true
             });
-        // add id into array for deleting later
-        campaign_id.push(response_1.body.id)
-        expect(response_2.status).toEqual(400);
-        expect(response_2.body.error).toEqual(1);
-        expect(response_2.body.message).toEqual(errorMessage.campaign);
+        expect(response2.status).toEqual(400);
+        expect(response2.body.error).toEqual(1);
+        expect(response2.body.message).toEqual(errorMessage.campaign);
     });
 
     afterAll(async function () {
         // delete campaign after test
-        await deleteManyCampaigns(campaign_id);
+        await deleteManyCampaigns(campaignIdList);
+        campaignIdList = [];
     })
 });

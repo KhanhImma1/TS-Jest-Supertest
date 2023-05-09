@@ -79,7 +79,7 @@ export async function deleteManyPixels(array: string[]) {
     const length = array.length
     for (let i = 0; i < length; i++) {
         await request(BASE_URL)
-            .delete("/api/pixel/" + `${array.pop()}` + "/delete")
+            .delete("/api/pixel/" + array[i] + "/delete")
             .set('Authorization', `${TOKEN}`);
     }
 }

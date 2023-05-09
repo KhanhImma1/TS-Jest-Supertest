@@ -5,58 +5,58 @@ import { createChannel, deleteManyChannels } from '../helpers/api.helper'
 import { errorMessage } from '../helpers/enum'
 
 describe('PUT /api/channel/:id/update', function () {
-    var channel_id: string[] = [];
+    var channelIdList: string[] = [];
 
     test('CHA-001 Verify that user can change total details of an existent channel', async function () {
-        const randomName = generateRandomString();
-        const randomDescription = generateRandomString();
-        const randomName_2 = generateRandomString();
-        const randomDescription_2 = generateRandomString();
+        const randomName1 = generateRandomString();
+        const randomDescription1 = generateRandomString();
+        const randomName2 = generateRandomString();
+        const randomDescription2 = generateRandomString();
         // create a new channel for testing
-        const createdResponse = await createChannel(randomName, randomDescription, "#000000", false);
-        const channel_id_1 = createdResponse.body.id;
+        const createdResponse = await createChannel(randomName1, randomDescription1, "#000000", false);
+        const channelId1 = createdResponse.body.id;
         // add id into array for deleting later
-        channel_id.push(channel_id_1);
+        channelIdList.push(channelId1);
         // update channel that has just created
         const updatedResponse = await request(BASE_URL)
-            .put("/api/channel/" + channel_id_1 + "/update")
+            .put("/api/channel/" + channelId1 + "/update")
             .set('Authorization', `${TOKEN}`)
             .send({
-                "name": randomName_2,
-                "description": randomDescription_2,
+                "name": randomName2,
+                "description": randomDescription2,
                 "color": "#FFFFFF",
                 "starred": true
             });
-        const body = updatedResponse.body;
         expect(updatedResponse.status).toEqual(200);
+        const body = updatedResponse.body;
         expect(body.error).toEqual(0);
-        expect(body.name.toLowerCase()).toEqual(randomName_2);
-        expect(body.description).toEqual(randomDescription_2);
+        expect(body.name.toLowerCase()).toEqual(randomName2);
+        expect(body.description).toEqual(randomDescription2);
         expect(body.color).toEqual("#FFFFFF");
         expect(body.starred).toEqual(true);
         expect(typeof body.id).toBe('number');
     });
 
     test('CHA-012 Verify that user cannot rename an existent channel with existent "name" in Body', async function () {
-        const randomName = generateRandomString();
-        const randomDescription = generateRandomString();
-        const randomName_2 = generateRandomString();
-        const randomDescription_2 = generateRandomString();
+        const randomName1 = generateRandomString();
+        const randomDescription1 = generateRandomString();
+        const randomName2 = generateRandomString();
+        const randomDescription2 = generateRandomString();
         // created 2 new channels
-        const newChannel_1 = await createChannel(randomName, randomDescription, "#000000", true);
-        const channel_id_1 = newChannel_1.body.id;
-        const newChannel_2 = await createChannel(randomName_2, randomDescription_2, "#000000", false);
-        const channel_id_2 = newChannel_2.body.id;
-        const channel_name_2 = newChannel_2.body.name;
+        const newChannel1 = await createChannel(randomName1, randomDescription1, "#000000", true);
+        const channelId1 = newChannel1.body.id;
+        const newChannel2 = await createChannel(randomName2, randomDescription2, "#000000", false);
+        const channelId2 = newChannel2.body.id;
+        const channelName2 = newChannel2.body.name;
         // add id into array for deleting later
-        channel_id.push(channel_id_1, channel_id_2);
+        channelIdList.push(channelId1, channelId2);
         // update channel_1 with existent name of channel_2
         const updatedResponse = await request(BASE_URL)
-            .put("/api/channel/" + channel_id_1 + "/update")
+            .put("/api/channel/" + channelId1 + "/update")
             .set('Authorization', `${TOKEN}`)
             .send({
-                "name": channel_name_2,
-                "description": randomDescription_2,
+                "name": channelName2,
+                "description": randomDescription2,
                 "color": "#000000",
                 "starred": true
             });
@@ -67,6 +67,7 @@ describe('PUT /api/channel/:id/update', function () {
 
     afterAll(async function () {
         // delete channel after test
-        await deleteManyChannels(channel_id);
+        await deleteManyChannels(channelIdList);
+        channelIdList = [];
     })
 });
