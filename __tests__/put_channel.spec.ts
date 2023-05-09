@@ -6,17 +6,30 @@ import { errorMessage } from '../helpers/enum'
 
 describe('PUT /api/channel/:id/update', function () {
     let channelIdList: string[] = [];
+    let randomName1: string;
+    let randomName2: string;
+    let randomDescription1: string;
+    let randomDescription2: string;
+    let channelId1: string;
+    let channelId2: string;
+    let channelName2: string;
+
+    beforeEach(async function () {
+        randomName1 = generateRandomString();
+        randomName2 = generateRandomString();
+        randomDescription1 = generateRandomString();
+        randomDescription2 = generateRandomString();
+        // created 2 new channels for testing
+        const newChannel1 = await createChannel(randomName1, randomDescription1, "#000000", true);
+        const newChannel2 = await createChannel(randomName2, randomDescription2, "#000000", false);
+        channelId1 = newChannel1.body.id;
+        channelId2 = newChannel2.body.id;
+        channelName2 = newChannel2.body.name;
+        // add id into array for deleting later
+        channelIdList.push(channelId1, channelId2);
+    })
 
     test('CHA-001 Verify that user can change total details of an existent channel', async function () {
-        const randomName1 = generateRandomString();
-        const randomDescription1 = generateRandomString();
-        const randomName2 = generateRandomString();
-        const randomDescription2 = generateRandomString();
-        // create a new channel for testing
-        const createdResponse = await createChannel(randomName1, randomDescription1, "#000000", false);
-        const channelId1 = createdResponse.body.id;
-        // add id into array for deleting later
-        channelIdList.push(channelId1);
         // update channel that has just created
         const updatedResponse = await request(BASE_URL)
             .put("/api/channel/" + channelId1 + "/update")
@@ -38,18 +51,6 @@ describe('PUT /api/channel/:id/update', function () {
     });
 
     test('CHA-012 Verify that user cannot rename an existent channel with existent "name" in Body', async function () {
-        const randomName1 = generateRandomString();
-        const randomDescription1 = generateRandomString();
-        const randomName2 = generateRandomString();
-        const randomDescription2 = generateRandomString();
-        // created 2 new channels
-        const newChannel1 = await createChannel(randomName1, randomDescription1, "#000000", true);
-        const channelId1 = newChannel1.body.id;
-        const newChannel2 = await createChannel(randomName2, randomDescription2, "#000000", false);
-        const channelId2 = newChannel2.body.id;
-        const channelName2 = newChannel2.body.name;
-        // add id into array for deleting later
-        channelIdList.push(channelId1, channelId2);
         // update channel_1 with existent name of channel_2
         const updatedResponse = await request(BASE_URL)
             .put("/api/channel/" + channelId1 + "/update")

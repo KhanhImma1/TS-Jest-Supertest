@@ -13,8 +13,7 @@ export function createCampaign(name: string, slug: string, pub: boolean) {
 }
 
 export async function deleteManyCampaigns(array: string[]) {
-    const length = array.length;
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < array.length; i++) {
         await request(BASE_URL)
             .delete("/api/campaign/" + array[i] + "/delete")
             .set('Authorization', `${TOKEN}`);
@@ -46,8 +45,7 @@ export function updateChannel(id: number, name: string, des: string, color: stri
 }
 
 export async function deleteManyChannels(array: string[]) {
-    const length = array.length;
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < array.length; i++) {
         await request(BASE_URL)
             .delete("/api/channel/" + array[i] + "/delete")
             .set('Authorization', `${TOKEN}`);
@@ -76,8 +74,7 @@ export function listPixels(limits?: number, pages?: number) {
 }
 
 export async function deleteManyPixels(array: string[]) {
-    const length = array.length
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < array.length; i++) {
         await request(BASE_URL)
             .delete("/api/pixel/" + array[i] + "/delete")
             .set('Authorization', `${TOKEN}`);

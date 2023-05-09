@@ -6,10 +6,16 @@ import { errorMessage } from '../helpers/enum'
 
 describe('POST /api/campaign/add', function () {
     let campaignIdList: string[] = [];
+    let randomName: string;
+    let randomSlug: string;
+
+    beforeEach(async function () {
+        randomName = generateRandomString();
+        randomSlug = generateRandomString();
+    })
 
     test('CAM-001 Verify that user can create a campaign', async function () {
-        const randomName = generateRandomString();
-        const randomSlug = generateRandomString();
+
         // create a new campaign for testing
         const response = await request(BASE_URL)
             .post("/api/campaign/add")
@@ -32,8 +38,6 @@ describe('POST /api/campaign/add', function () {
     });
 
     test('CAM-011 Verify that user cannot create a campaign with existent "name" in Body', async function () {
-        const randomName = generateRandomString();
-        const randomSlug = generateRandomString();
         // create a new campaign for testing
         const response1 = await createCampaign(randomName, randomSlug, true);
         // add id into array for deleting later
