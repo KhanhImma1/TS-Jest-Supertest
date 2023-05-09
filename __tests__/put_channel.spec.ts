@@ -5,7 +5,7 @@ import { createChannel, deleteManyChannels } from '../helpers/api.helper'
 import { errorMessage } from '../helpers/enum'
 
 describe('PUT /api/channel/:id/update', function () {
-    var channelIdList: string[] = [];
+    let channelIdList: string[] = [];
 
     test('CHA-001 Verify that user can change total details of an existent channel', async function () {
         const randomName1 = generateRandomString();

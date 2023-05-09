@@ -5,7 +5,7 @@ import { createCampaign, deleteManyCampaigns } from '../helpers/api.helper'
 import { errorMessage } from '../helpers/enum'
 
 describe('POST /api/campaign/add', function () {
-    var campaignIdList: string[] = [];
+    let campaignIdList: string[] = [];
 
     test('CAM-001 Verify that user can create a campaign', async function () {
         const randomName = generateRandomString();

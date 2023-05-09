@@ -5,7 +5,7 @@ import { createPixel, deleteManyPixels } from '../helpers/api.helper'
 import { DEFAULT_TIMEOUT } from '../helpers/constant'
 
 describe('GET /api/pixels', function () {
-    var pixelIdList: string[] = []
+    let pixelIdList: string[] = []
 
     test('PIX-001 Verify that user can get list of total pixels', async function () {
         const recordSize = 2;
