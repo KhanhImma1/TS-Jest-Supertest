@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { BASE_URL, TOKEN } from '../helpers/constant'
 import { generateRandomString, generateRandomPixelType } from '../helpers/common'
-import { createPixel, listPixels, deletePixel } from '../helpers/api.helper'
+import { createPixel, deleteManyPixels } from '../helpers/api.helper'
 import { DEFAULT_TIMEOUT } from '../helpers/constant'
 
 describe('GET /api/pixels', function () {
@@ -11,9 +11,9 @@ describe('GET /api/pixels', function () {
         const record_size = 2;
         // create new pixels for testing
         for (let i = 0; i < record_size; i++) {
-            var randomType = generateRandomPixelType();
-            var randomName = generateRandomString();
-            var randomTag = generateRandomString();
+            let randomType = generateRandomPixelType();
+            let randomName = generateRandomString();
+            let randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
             // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
@@ -36,16 +36,18 @@ describe('GET /api/pixels', function () {
         expect(typeof data.pixels[0].name).toBe('string');
         expect(typeof data.pixels[0].tag).toBe('string');
         expect(typeof data.pixels[0].date).toBe('string');
-    })
+    },
+        DEFAULT_TIMEOUT
+    )
 
     test('PIX-002 Verify that user can get list of pixels with "limit" in param', async function () {
         const record_size = 4;
         const limits = 3;
         // create new pixels for testing
         for (let i = 0; i < record_size; i++) {
-            var randomType = generateRandomPixelType();
-            var randomName = generateRandomString();
-            var randomTag = generateRandomString();
+            let randomType = generateRandomPixelType();
+            let randomName = generateRandomString();
+            let randomTag = generateRandomString();
             const newPixel = await createPixel(randomType, randomName, randomTag);
             // add id into array for deleting later
             pixel_id.push(newPixel.body.id);
@@ -70,11 +72,7 @@ describe('GET /api/pixels', function () {
     )
 
     afterEach(async function () {
-        console.log(pixel_id);
         // delete pixels after testing
-        for (let i = 0; i < pixel_id.length; i++) {
-            await deletePixel(`${pixel_id.pop()}`);
-            console.log(`${pixel_id.pop()}`)
-        }
+        await deleteManyPixels(pixel_id);
     })
 })

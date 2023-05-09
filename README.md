@@ -12,40 +12,28 @@ This project is an example of API tests using TypeScript, [Jest](https://jestjs.
 * npm >= 9.5.x
 
 ## Getting started
-Clone to local:
+1. Clone to local:
 
 ```
 git clone https://github.com/KhanhImma1/TS-Jest-Supertest.git
 ```
 
-Install the dependencies:
+2. Input value into .env file (ex: .env.qa):
+
+3. Install the dependencies:
 
 ```
 npm install
 ```
 
-Run all of tests:
-
-```
-npm run test
-```
-
-Run test with the specific environment:
+Run all tests with local environment (ex: .env.qa):
 
 ```
 npm run test:qa
 ```
 
-Run test by files:
+Run test by file:
 
 ```
-npx jest post_campaign
-```
-
-```
-npx jest put_channel
-```
-
-```
-npx jest get_all_pixels
+npm run test:qa <file_name>
 ```

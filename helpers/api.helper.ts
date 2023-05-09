@@ -12,14 +12,12 @@ export function createCampaign(name: string, slug: string, pub: boolean) {
         });
 }
 
-export async function deleteCampaign(id: number) {
-    const response = await request(BASE_URL)
-        .delete("/api/campaign/" + id + "/delete")
-        .set('Authorization', `${TOKEN}`);
-    if (response.body.error === 0) {
-        console.log('successfull delete campaign id ' + id);
-    } else {
-        console.log('failed delete campaign id ' + id);
+export async function deleteManyCampaigns(array: string[]) {
+    const length = array.length;
+    for (let i = 0; i < length; i++) {
+        await request(BASE_URL)
+            .delete("/api/campaign/" + array[i] + "/delete")
+            .set('Authorization', `${TOKEN}`);
     }
 }
 
@@ -47,14 +45,12 @@ export function updateChannel(id: number, name: string, des: string, color: stri
         });
 }
 
-export async function deleteChannel(id: number) {
-    const response = await request(BASE_URL)
-        .delete("/api/channel/" + id + "/delete")
-        .set('Authorization', `${TOKEN}`);
-    if (response.body.error === 0) {
-        console.log('successfull delete channel id ' + id);
-    } else {
-        console.log('failed delete channel id ' + id);
+export async function deleteManyChannels(array: string[]) {
+    const length = array.length;
+    for (let i = 0; i < length; i++) {
+        await request(BASE_URL)
+            .delete("/api/channel/" + array[i] + "/delete")
+            .set('Authorization', `${TOKEN}`);
     }
 }
 
@@ -79,13 +75,11 @@ export function listPixels(limits?: number, pages?: number) {
         })
 }
 
-export async function deletePixel(id: string) {
-    const response = await request(BASE_URL)
-        .delete("/api/pixel/" + id + "/delete")
-        .set('Authorization', `${TOKEN}`);
-    if (response.body.error === 0) {
-        console.log('successfull delete pixel id ' + id);
-    } else {
-        console.log('failed delete pixel id ' + id);
+export async function deleteManyPixels(array: string[]) {
+    const length = array.length
+    for (let i = 0; i < length; i++) {
+        await request(BASE_URL)
+            .delete("/api/pixel/" + `${array.pop()}` + "/delete")
+            .set('Authorization', `${TOKEN}`);
     }
 }
