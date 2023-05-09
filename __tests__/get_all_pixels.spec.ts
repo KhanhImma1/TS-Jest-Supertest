@@ -1,23 +1,14 @@
 import request from 'supertest';
 import { BASE_URL, TOKEN } from '../helpers/constant'
-import { generateRandomString, generateRandomPixelType } from '../helpers/common'
-import { createPixel, deleteManyPixels } from '../helpers/api.helper'
+import { createManyPixels, deleteManyPixels } from '../helpers/api.helper'
 import { DEFAULT_TIMEOUT } from '../helpers/constant'
 
 describe('GET /api/pixels', function () {
     let pixelIdList: string[] = []
 
     beforeAll(async function () {
-        const recordSize = 4;
         // create new pixels for testing
-        for (let i = 0; i < recordSize; i++) {
-            let randomType = generateRandomPixelType();
-            let randomName = generateRandomString();
-            let randomTag = generateRandomString();
-            const newPixel = await createPixel(randomType, randomName, randomTag);
-            // add id into array for deleting later
-            pixelIdList.push(newPixel.body.id);
-        };
+        await createManyPixels(4, pixelIdList);
     })
 
     test('PIX-001 Verify that user can get list of total pixels', async function () {
@@ -28,9 +19,9 @@ describe('GET /api/pixels', function () {
         expect(response.status).toEqual(200);
         const data = response.body.data;
         expect(response.body.error).toEqual(0);
+        expect(data.perpage).toEqual(15);
+        expect(data.currentpage).toEqual(1);
         expect(typeof data.result).toBe('number');
-        expect(typeof data.perpage).toBe('number');
-        expect(typeof data.currentpage).toBe('number');
         expect(typeof data.nextpage).toBe('object');
         expect(typeof data.maxpage).toBe('number')
         expect(typeof data.pixels).toBe('object');
@@ -55,9 +46,9 @@ describe('GET /api/pixels', function () {
         expect(response.status).toEqual(200);
         const data = response.body.data;
         expect(response.body.error).toEqual(0);
+        expect(data.perpage).toEqual(limit);
+        expect(data.currentpage).toEqual(1);
         expect(typeof data.result).toBe('number');
-        expect(typeof data.perpage).toBe('number');
-        expect(typeof data.currentpage).toBe('number');
         expect(typeof data.nextpage).toBe('number');
         expect(typeof data.maxpage).toBe('number');
     },

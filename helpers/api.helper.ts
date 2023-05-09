@@ -1,5 +1,6 @@
 import request from 'supertest';
 import { BASE_URL, TOKEN } from './constant'
+import { generateRandomString, generateRandomPixelType } from '../helpers/common'
 
 export function createCampaign(name: string, slug: string, pub: boolean) {
     return request(BASE_URL)
@@ -61,6 +62,17 @@ export function createPixel(type: string, name: string, tag: string) {
             "name": name,
             "tag": tag
         });
+}
+
+export async function createManyPixels(recordSize: number, array: string[]) {
+    for (let i = 0; i < recordSize; i++) {
+        let randomType = generateRandomPixelType();
+        let randomName = generateRandomString();
+        let randomTag = generateRandomString();
+        const newPixel = await createPixel(randomType, randomName, randomTag);
+        // add id into array for deleting later
+        array.push(newPixel.body.id);
+    };
 }
 
 export function listPixels(limits?: number, pages?: number) {
