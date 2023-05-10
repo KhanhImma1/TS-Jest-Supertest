@@ -40,6 +40,7 @@ describe('PUT /api/channel/:id/update', function () {
                 "color": "#FFFFFF",
                 "starred": true
             });
+
         expect(updatedResponse.status).toEqual(200);
         const body = updatedResponse.body;
         expect(body.error).toEqual(0);
@@ -61,6 +62,7 @@ describe('PUT /api/channel/:id/update', function () {
                 "color": "#000000",
                 "starred": true
             });
+
         expect(updatedResponse.status).toEqual(400);
         expect(updatedResponse.body.error).toEqual(1);
         expect(updatedResponse.body.message).toEqual(errorMessage.channel);

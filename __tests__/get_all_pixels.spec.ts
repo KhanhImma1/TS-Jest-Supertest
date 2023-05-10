@@ -16,6 +16,7 @@ describe('GET /api/pixels', function () {
         const response = await request(BASE_URL)
             .get("/api/pixels")
             .set('Authorization', `${TOKEN}`);
+
         expect(response.status).toEqual(200);
         const data = response.body.data;
         expect(response.body.error).toEqual(0);
@@ -43,6 +44,7 @@ describe('GET /api/pixels', function () {
             .query({
                 limit: limit
             });
+
         expect(response.status).toEqual(200);
         const data = response.body.data;
         expect(response.body.error).toEqual(0);
