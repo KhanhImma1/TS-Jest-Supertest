@@ -25,7 +25,7 @@ describe('POST /api/campaign/add', function () {
                 "public": true
             });
 
-        expect(response.status).toEqual(200);
+        expect(response.status).toEqual(201);
         // add id into array for deleting later
         campaignIdList.push(response.body.id);
         const body = response.body;
