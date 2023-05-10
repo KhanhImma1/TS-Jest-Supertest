@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:qa": "dotent -e .env.qa jest"
+    "test:qa": "dotenv -e .env.qa jest",
+    "test:dev": "dotenv -e .env.dev jest"
   },
   "author": "khanhimma",
   "license": "ISC",
