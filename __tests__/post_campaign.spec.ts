@@ -15,7 +15,6 @@ describe('POST /api/campaign/add', function () {
     })
 
     test('CAM-001 Verify that user can create a campaign', async function () {
-
         // create a new campaign for testing
         const response = await request(BASE_URL)
             .post("/api/campaign/add")
@@ -25,6 +24,7 @@ describe('POST /api/campaign/add', function () {
                 "slug": randomSlug,
                 "public": true
             });
+
         expect(response.status).toEqual(200);
         // add id into array for deleting later
         campaignIdList.push(response.body.id);
@@ -53,6 +53,7 @@ describe('POST /api/campaign/add', function () {
                 "slug": randomSlug,
                 "public": true
             });
+
         expect(response2.status).toEqual(400);
         expect(response2.body.error).toEqual(1);
         expect(response2.body.message).toEqual(errorMessage.campaign);
